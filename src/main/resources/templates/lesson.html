@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Lesson</title>
+</head>
+<body>
+<h1 layout:fragment="header">Lesson</h1>
+<section layout:fragment="content">
+    <p th:text="${lesson.name}">Name</p>
+    <p th:switch="${lesson.section}">
+        <th:block th:case="1">Reading</th:block>
+        <th:block th:case="2">Listening</th:block>
+        <th:block th:case="3">Grammar</th:block>
+    </p>
+    <p th:switch="${lesson.level}">
+        <th:block th:case="1">beginner</th:block>
+        <th:block th:case="2">pre-intermediate</th:block>
+        <th:block th:case="3">intermediate</th:block>
+        <th:block th:case="4">upper-intermediate</th:block>
+        <th:block th:case="5">advanced</th:block>
+    </p>
+    <p th:text="${lesson.rules}">Name</p>
+    <div th:if="${lesson.video_link != ''}">
+        <iframe width="560" height="315"
+                th:src="@{https://www.youtube.com/embed/{url} (url=${lesson.video_link})}" frameborder="0"
+                allowfullscreen="1"></iframe>
+    </div>
+    <div th:if="${lesson.audio_link != ''}">
+        <audio controls="controls">
+            <source th:src="${lesson.audio_link}" type="audio/mpeg"></source>
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <p th:utext="${lesson.text}">Name</p>
+	
+	<a class="btn btn-success" th:href="@{test}">Start test</a>
+
+    <div><label for="comment_title">Title</label></div>
+    <input id="comment_title" type="text" name="comment_title"/>
+
+    <div><label for="comment_body">Body</label></div>
+    <textarea name="comment_body" id="comment_body"></textarea>
+    <input type="hidden" name="id_lesson" id="id_lesson" th:value="${lesson.id_lesson}"/>
+
+    <div><button id="send_comment" class="btn btn-default" disabled="disabled">Send comment</button></div>
+    <br/>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comments</h3>
+        </div>
+        <div class="panel-body">
+            <blockquote th:each="comment : ${lesson.commentList}">
+                <h4 th:text="${comment.comment_title}"></h4>
+                <p th:text="${comment.comment_body}"></p>
+                <footer th:text="${comment.name}"></footer>
+                <a id="delete_comment" class="btn btn-danger" th:attr="data-id_comment=${comment.id_comment}">Delete</a>
+            </blockquote>
+        </div>
+    </div>
+    <script>
+    	var token = $("meta[name='_csrf']").attr("content");
+    	var header = $("meta[name='_csrf_header']").attr("content");
+    	$(document).ajaxSend(function(e, xhr, options) {
+        	xhr.setRequestHeader(header, token);
+    	});
+    	$('#comment_body').keyup(function() {
+
+            var empty = false;
+            $('#comment_body').each(function() {
+                if ($(this).val().length == 0) {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                $('#send_comment').attr('disabled', 'disabled');
+            } else {
+                $('#send_comment').removeAttr('disabled');
+            }
+        });
+        $("#send_comment").on('click', function () {
+            var id_lesson = $("#id_lesson").val();
+            var comment_title = $("#comment_title").val();
+            var comment_body = $("#comment_body").val();
+            
+            $.ajax({
+                url: "/addComment/",
+                type: "POST",
+                data: {
+                    id_lesson: id_lesson,
+                    comment_title: comment_title,
+                    comment_body: comment_body,
+                },
+                success: function (res) {
+                    console.log(res);
+                    location.reload();
+                },
+                error:function(result) {
+                    console.log(result);
+                }
+            });
+        });
+        $('#delete_comment').on('click', function () {
+            var id_comment = $(this).data('id_comment');
+            $.ajax({
+                url: "/delete_comment/" + id_comment,
+                type: "POST",
+                success: function (res) {
+                    console.log(res);
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</section>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add user</title>
+</head>
+
+<body>
+<h1 layout:fragment="header">Information about developers, functional and contacts.</h1>
+<section layout:fragment="content">
+
+    <p>You are able to do:</p>
+    <ol>
+        <li>Watch lectures</li>
+        <li>Take tests</li>
+        <li>Read texts</li>
+        <li>Listen to tales</li>
+        <li>Look for partners for speaking</li>
+        <li>Test your English knowledge </li>
+    </ol>
+
+    <p>Contacts:</p>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+        <tr>
+            <td>Ksusha</td>
+            <td>orlovaksusha@mail.ru</td>
+            <td>+7911-771-42-69</td>
+        </tr>
+        <tr>
+            <td>Anna</td>
+            <td>shest@mail.ru</td>
+            <td>+7911-999-42-69</td>
+        </tr>
+        <tr>
+            <td>Vlad</td>
+            <td>vlad@mail.ru</td>
+            <td>+7911-767-42-69</td>
+        </tr>
+    </table>
+</section>
+</body>
+
+</html>

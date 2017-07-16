@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Lessons</title>
+</head>
+<body>
+<h1 layout:fragment="header">There is a list with lessons for your level.</h1>
+<section layout:fragment="content">
+
+    <table class="table table-bordered">
+        <tr th:each="lesson : ${lessons}">
+            <td><a th:text="${lesson.name}" th:href="@{/lesson/{id}/content(id = ${lesson.id_lesson})}"></a></td>
+        </tr>
+    </table>
+
+</section>
+</body>
+</html>

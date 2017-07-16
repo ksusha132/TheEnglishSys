@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>All users</title>
+</head>
+<body>
+<h1 layout:fragment="header">All users</h1>
+<section layout:fragment="content">
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Last name</th>
+                <th>Age</th>
+                <th>Score for main test</th>
+                <th>Show</th>
+            </tr>
+            <tr th:each="p : ${users}">
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.lastName}"></td>
+                <td th:text="${p.age}"></td>
+                <td th:text="${p.scoreMainTest}"></td>
+                <td><a class="btn btn-primary" th:href="@{'/users/' + ${p.id}}">Show</a></td>
+            </tr>
+        </table>
+    </div>
+</section>
+</body>
+</html>

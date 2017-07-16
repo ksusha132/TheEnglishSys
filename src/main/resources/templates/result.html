@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Result</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/test.css}" />   
+</head>
+
+<body>
+<h1 layout:fragment="header"></h1>
+<section layout:fragment="content">
+	<br></br>
+	<h3 th:text="'Your score: ' + ${result} + '/' + ${cnt}">Result</h3>
+	<br></br>
+	<div th:each="question, i : ${questions}">
+	<p th:text="${question.ask}">Name</p>
+        <ul class="no-bullets">
+		<li th:each="item : ${question.choice}">
+		<div th:if="${item.id != question.chosenId}">
+			<div class="radio">
+             	<input type="radio" disabled="disabled"/>
+        		<label th:text="${item.value}">Choice</label>
+        	</div>	
+    	</div>
+		<div th:if="${item.id == question.chosenId}">
+			<div th:class="${item.correct} ? 'radio radio-success' : 'radio radio-danger'">
+             	<input type="radio" id="radio" checked="checked" disabled="disabled"/>
+             	<label class="lab" for="radio" th:text="${item.value}"></label>
+        	</div>
+    	</div>
+		</li>
+	</ul>
+	</div>
+	<a href="content" class="btn btn-success">Back to lesson</a>
+	<br></br>
+</section>
+</body>
+</html>

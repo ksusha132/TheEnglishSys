@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/test.css}" />   
+</head>
+
+<body>
+<h1 layout:fragment="header">Test</h1>
+<section layout:fragment="content">
+
+	<form action="#" th:action="@{result}" th:object="${test}"
+		  method="post">
+	<div th:each="question, i : ${questions}">
+	
+	<p th:text="${question.ask}">Name</p>
+    <input type="hidden" th:field="*{question[__${i.index}__].id}" />
+    <input type="hidden" th:field="*{question[__${i.index}__].ask}" />
+    
+	<ul class="no-bullets">
+		<li th:each="item, stat : ${question.choice}">
+			<input type="hidden" th:field="*{question[__${i.index}__].choice[__${stat.index}__].id}" />
+			<input type="hidden" th:field="*{question[__${i.index}__].choice[__${stat.index}__].value}" />
+			<input type="hidden" th:field="*{question[__${i.index}__].choice[__${stat.index}__].correct}" />
+			<div class="radio">
+             	<input type="radio" th:field="*{question[__${i.index}__].chosenId}" th:value="${item.id}"/>
+        		<label th:for="'question' + ${i.index} + '.chosenId' + ${stat.index + 1}" th:text="${item.value}">Choice</label>
+        	</div>	
+		</li>
+	</ul>
+	</div>
+	<button type="submit"
+			class="btn btn-success">Complete</button>
+	</form>
+
+</section>
+</body>
+</html>

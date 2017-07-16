@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main page</title>
+</head>
+<body>
+<h1 layout:fragment="header" class="text-center">Welcome to the main page.</h1>
+<section layout:fragment="content">
+    <div class="container col-xs-12 text-center">
+        <h3>Choose your level.</h3>
+
+        <div class="form-group">
+            <select id="level" name="level" class="form-control">
+                <option value="1">beginner</option>
+                <option value="2">pre-intermediate</option>
+                <option value="3">intermediate</option>
+                <option value="4">upper-intermediate</option>
+                <option value="5">advanced</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/test.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" href="/maintest">Main test</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/about.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" href="/about">About</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/reading.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" th:href="@{/lesson(section=1,level=1)}">Reading</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/listening.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" th:href="@{/lesson(section=2,level=1)}">Listening</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/grammar.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" th:href="@{/lesson(section=3,level=1)}">Grammar</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-center">
+            <div class="thumbnail">
+                <img src="/images/speaking.jpg" style="height:300px;"/>
+                <div class="caption">
+                    <h3><a class="section" href="/users/speaking">Speaking</a></h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $('#level').on('change',function(){
+            var checked_option = $('#level').val();
+            $('.section').each(function(){
+                var href = $(this).attr('href');
+                var nth = 0;
+                href = href.replace(/\d/g, function (match, i, original) {
+                    nth++;
+                    return (nth === 2) ? checked_option : match;
+                });
+                console.log(href);
+                $(this).attr('href',href);
+            });
+        });
+
+    </script>
+</section>
+</body>
+</html>
